@@ -177,64 +177,81 @@ GET http://localhost:3000/api/orders
 
 ## Endpoints
 
-Clientes
+### Clientes
 ```
-    GET/customers
-```
-
-##Ejemplo de respuesta
-![Respueta de api/customers](api-northwind/screenshots/customers-response.png)
-
-
-CLiente por ID
-```
-    GET/customers?search=ALFKI
-```
-##Ejemplo de respuesta
-![Respueta de api/customers/ById](api-northwind/screenshots/customers_byid.png)
-
-
-Empleados
-```
-    GET/employees
-```
-##Ejemplo de respuesta
-![Respueta de api/Employee](api-northwind/screenshots/employee.png)
-
-
-Productos
-```
-    GET/products
-```
-##Ejemplo de respuesta
-![Respueta de api/Products](api-northwind/screenshots/products.png)
-
-Ordenes
-```
-    GET/orders
-```
-##Ejemplo de respuesta
-![Respueta de api/orders](api-northwind/screenshots/ordenes.png)
-
-Consultar una orden
-```
-    GET/order/{id}
-```
-##Ejemplo de respuesta
-![Respueta de api/order/{id}](api-northwind/screenshots/customers_byid.png)
-
-
-Crear una orden
-```
-    GET/order/POST
-```
-##Ejemplo de respuesta
-![Respueta de api/order/post](api-northwind/screenshots/create_post_order.png)
-
-Eliminar una orden
-```
-    GET/order/delete
+GET /customers
 ```
 
-##Ejemplo de respuesta
-![Respueta de api/order/delete](api-northwind/screenshots/delete_order.png)
+**Ejemplo de respuesta**
+
+![Respuesta de api/customers](screenshots/customers-response.png)
+
+
+### Cliente por ID
+```
+GET /customers?search=ALFKI
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/customers/ById](screenshots/customers_byid.png)
+
+
+### Empleados
+```
+GET /employees
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/Employee](screenshots/employee.png)
+
+
+### Productos
+```
+GET /products
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/Products](screenshots/products.png)
+
+
+### Órdenes
+```
+GET /orders
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/orders](screenshots/ordenes.png)
+
+
+### Consultar una orden
+```
+GET /order/{id}
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/order/{id}](screenshots/order_by_id.png)
+
+
+### Crear una orden
+```
+POST /order
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/order/post](screenshots/create_post_order.png)
+
+
+### Eliminar una orden
+```
+DELETE /order/{id}
+```
+
+**Ejemplo de respuesta**
+
+![Respuesta de api/order/delete](screenshots/delete_order.png)
