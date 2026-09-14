@@ -1,6 +1,4 @@
 // dto/order.dto.js
-const OrderDetailDTO = require('./order_detail.dto');
-
 class OrderDTO {
     constructor(order) {
         this.id = order.order_id;
@@ -18,9 +16,6 @@ class OrderDTO {
             postalCode: order.ship_postal_code,
             country: order.ship_country
         };
-        this.details = Array.isArray(order.details)
-            ? order.details.map(d => new OrderDetailDTO(d))
-            : [];
     }
 }
 

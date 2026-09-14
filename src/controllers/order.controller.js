@@ -1,11 +1,9 @@
 // controllers/order.controller.js
 const { validationResult } = require('express-validator');
 const OrderService = require('../services/order.service');
-const OrderDetailDTO = require('../dto/order_detail.dto');
 const OrderDTO = require('../dto/order.dto');
 
-
-//GET all order
+// GET /api/orders
 exports.getAllOrders = async (req, res) => {
     try {
         const { customer_id, employee_id } = req.query;
@@ -17,7 +15,7 @@ exports.getAllOrders = async (req, res) => {
     }
 };
 
-//GET order_by_id
+// GET /api/orders/:id
 exports.getOrderById = async (req, res) => {
     try {
         const order = await OrderService.getOrderById(req.params.id);
@@ -39,8 +37,7 @@ exports.getOrderDetails = async (req, res) => {
             return res.status(404).json({ error: 'Orden no encontrada' });
         }
         const details = await OrderService.getOrderDetails(req.params.id);
-        const detailDTOs = details.map(d => new OrderDetailDTO(d));
-        res.json(detailDTOs);
+        res.json(details);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -54,15 +51,14 @@ exports.createOrder = async (req, res) => {
     }
     try {
         const order = await OrderService.createOrder(req.body);
-        const orderDTO = new OrderDTO(order); // ya incluye details con OrderDetailDTO
+        const orderDTO = new OrderDTO(order);
         res.status(201).json(orderDTO);
     } catch (error) {
-        const status = error.status || 500;
-        res.status(status).json({ error: error.message || 'Error interno del servidor' });
+        res.status(500).json({ error: error.message });
     }
 };
 
-//Update order/controller
+// PUT /api/orders/:id
 exports.updateOrder = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -80,7 +76,7 @@ exports.updateOrder = async (req, res) => {
     }
 };
 
-//Delete order/controller
+// DELETE /api/orders/:id
 exports.deleteOrder = async (req, res) => {
     try {
         const deleted = await OrderService.deleteOrder(req.params.id);
