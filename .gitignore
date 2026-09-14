@@ -1,0 +1,30 @@
+# --- Dependencias ---
+node_modules/
+
+# --- Variables de entorno ---
+.env
+.env.local
+.env.*.local
+
+# --- Logs ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Archivos de sistema operativo ---
+.DS_Store
+Thumbs.db
+
+# --- Editores / IDEs ---
+.vscode/
+.idea/
+*.swp
+
+# --- Cobertura de tests ---
+coverage/
+
+# --- Build / dist (si aplica en el futuro) ---
+dist/
+build/
