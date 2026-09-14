@@ -1,0 +1,26 @@
+# Northwind Orders API
+
+API REST desarrollada con Node.js, Express y PostgreSQL para la gestión de órdenes, clientes y productos de la base de datos de Northwind. Incluye el manejo de transacciones SQL ACID y documentación interactiva con Swagger UI.
+
+---
+
+## Estudiante
+* **Nombre:** Adriana Natalia Quiroz Yujra
+* **Materia:** Tecnologías Web II
+* **Examen:** Práctico API REST Northwind
+
+---
+
+## Requisitos Previos
+
+- [Node.js](https://nodejs.org/)
+- [PostgreSQL](https://www.postgresql.org/) con la base de datos `northwind` cargada.
+
+---
+
+## Instalación y Configuración
+
+1. **Ingresar a la carpeta del proyecto e instalar dependencias:**
+   ```bash
+   cd northwind-api
+   npm install
