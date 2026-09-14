@@ -1,5 +1,3 @@
-#Nombre: Oscar Ezequiel Ariscain Robles 
-
 # API de Órdenes de Venta - Northwind (PostgreSQL)
 
 API REST construida con Node.js, Express y PostgreSQL para consultar datos de la
@@ -29,7 +27,7 @@ documentación interactiva con Swagger.
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/Twokarma/1_parcialde-Tecno2.git
+   git clone <url-del-repositorio>
    cd api-northwind
    ```
 
