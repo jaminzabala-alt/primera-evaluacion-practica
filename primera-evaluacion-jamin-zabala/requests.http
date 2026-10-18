@@ -1,0 +1,94 @@
+### Estado API
+GET http://localhost:3000/
+
+### Clientes
+GET http://localhost:3000/customers
+
+### Empleados
+GET http://localhost:3000/employees
+
+### Productos
+GET http://localhost:3000/products
+
+### Consultar orden creada
+GET http://localhost:3000/orders/11081
+
+### Crear orden
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "customer_id": "ALFKI",
+  "employee_id": 5,
+  "order_date": "2026-09-14",
+  "products": [
+    {
+      "product_id": 3,
+      "quantity": 2,
+      "discount": 0
+    },
+    {
+      "product_id": 11,
+      "quantity": 1,
+      "discount": 0.1
+    }
+  ]
+}
+
+### Error: cliente inexistente
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "customer_id": "XXXXX",
+  "employee_id": 5,
+  "products": [
+    {
+      "product_id": 3,
+      "quantity": 1,
+      "discount": 0
+    }
+  ]
+}
+
+### Error: producto inexistente
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "customer_id": "ALFKI",
+  "employee_id": 5,
+  "products": [
+    {
+      "product_id": 9999,
+      "quantity": 1,
+      "discount": 0
+    }
+  ]
+}
+
+### Error: quantity = 0
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "customer_id": "ALFKI",
+  "employee_id": 5,
+  "products": [
+    {
+      "product_id": 3,
+      "quantity": 0,
+      "discount": 0
+    }
+  ]
+}
+
+### Error: products = []
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "customer_id": "ALFKI",
+  "employee_id": 5,
+  "products": []
+}

@@ -1,0 +1,32 @@
+{
+  "name": "primera-evaluacion-practica",
+  "version": "1.0.0",
+  "description": "En este examen práctico, el estudiante deberá construir una API REST funcional utilizando Express.js y PostgreSQL sobre la base de datos Northwind. La evaluación se centrará exclusivamente en la generación de órdenes de venta, utilizando las entidades relacionadas con clientes, empleados, productos, inventario y detalle de órdenes.",
+  "main": "index.js",
+  "scripts": {
+  "start": "node src/server.js",
+  "dev": "nodemon src/server.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UCBWebTech2/primera-evaluacion-practica.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/UCBWebTech2/primera-evaluacion-practica/issues"
+  },
+  "homepage": "https://github.com/UCBWebTech2/primera-evaluacion-practica#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

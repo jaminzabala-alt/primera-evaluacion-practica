@@ -1,0 +1,145 @@
+{
+  "info": {
+    "name": "API REST Northwind - Generación de Órdenes",
+    "description": "Colección de prueba para la API REST sobre Northwind. No incluye credenciales.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/"
+      }
+    },
+    {
+      "name": "GET /customers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/customers"
+      }
+    },
+    {
+      "name": "GET /employees",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/employees"
+      }
+    },
+    {
+      "name": "GET /products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/products"
+      }
+    },
+    {
+      "name": "GET /orders/11078",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/orders/11078"
+      }
+    },
+    {
+      "name": "POST /orders",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer_id\": \"ALFKI\",\n  \"employee_id\": 5,\n  \"order_date\": \"2026-09-13\",\n  \"products\": [\n    {\n      \"product_id\": 3,\n      \"quantity\": 2,\n      \"discount\": 0\n    },\n    {\n      \"product_id\": 11,\n      \"quantity\": 1,\n      \"discount\": 0.1\n    }\n  ]\n}"
+        },
+        "url": "{{baseUrl}}/orders"
+      }
+    },
+    {
+      "name": "Errores",
+      "item": [
+        {
+          "name": "cliente inexistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": \"XXXXX\",\n  \"employee_id\": 5,\n  \"products\": [\n    {\n      \"product_id\": 3,\n      \"quantity\": 1,\n      \"discount\": 0\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/orders"
+          }
+        },
+        {
+          "name": "producto inexistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": \"ALFKI\",\n  \"employee_id\": 5,\n  \"products\": [\n    {\n      \"product_id\": 9999,\n      \"quantity\": 1,\n      \"discount\": 0\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/orders"
+          }
+        },
+        {
+          "name": "cantidad 0",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": \"ALFKI\",\n  \"employee_id\": 5,\n  \"products\": [\n    {\n      \"product_id\": 3,\n      \"quantity\": 0,\n      \"discount\": 0\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/orders"
+          }
+        },
+        {
+          "name": "lista de productos vacía",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": \"ALFKI\",\n  \"employee_id\": 5,\n  \"products\": []\n}"
+            },
+            "url": "{{baseUrl}}/orders"
+          }
+        }
+      ]
+    }
+  ]
+}

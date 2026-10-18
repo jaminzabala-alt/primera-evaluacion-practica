@@ -1,0 +1,223 @@
+# API REST Northwind - Generación de Órdenes
+
+API REST en Node.js y Express.js para consultar el catálogo de Northwind y generar órdenes de venta de forma transaccional sobre PostgreSQL.
+
+## Descripción del proyecto
+
+El proyecto expone endpoints JSON para clientes, empleados, productos y órdenes. El caso principal es `POST /orders`: valida los datos, verifica que existan cliente, empleado y productos, toma el precio desde la base de datos y guarda cabecera y detalles en una sola transacción.
+
+## Objetivo
+
+Permitir generar órdenes de venta sobre la base **Northwind** ya existente, sin recrearla, sin ORM y sin frontend.
+
+## Tecnologías
+
+- Node.js (CommonJS)
+- Express.js
+- PostgreSQL
+- pg
+- dotenv
+- cors
+- helmet
+- nodemon
+
+No se utiliza TypeScript, Sequelize ni Prisma.
+
+## Estructura del proyecto
+
+```text
+.
+├── server.js
+├── src/
+│   ├── app.js
+│   ├── config/
+│   │   └── database.js
+│   ├── controllers/
+│   │   ├── customer.controller.js
+│   │   ├── employee.controller.js
+│   │   ├── product.controller.js
+│   │   └── order.controller.js
+│   ├── routes/
+│   │   ├── customer.routes.js
+│   │   ├── employee.routes.js
+│   │   ├── product.routes.js
+│   │   └── order.routes.js
+│   ├── services/
+│   │   └── order.service.js
+│   └── middleware/
+│       └── error.middleware.js
+├── .env.example
+├── .gitignore
+├── package.json
+├── requests.http
+├── postman_collection.json
+└── README.md
+```
+
+## Requisitos previos
+
+- Node.js instalado
+- PostgreSQL en ejecución en `localhost:5432` (o el host configurado)
+- Base de datos Northwind ya creada y con datos
+- Credenciales locales de PostgreSQL (no se versionan)
+
+## Instalación
+
+```bash
+npm install
+```
+
+## Configuración de `.env`
+
+Copia `.env.example` a `.env` y completa tus valores locales:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=northwind
+```
+
+Reemplaza `DB_PASSWORD` con tu contraseña. El archivo `.env` está en `.gitignore` y no debe subirse a GitHub.
+
+## Ejecución
+
+```bash
+npm run dev
+```
+
+También puede usarse:
+
+```bash
+npm start
+```
+
+El servidor muestra:
+
+```text
+Servidor ejecutándose en http://localhost:3000
+```
+
+## Endpoints
+
+| Método | Ruta | Descripción |
+| --- | --- | --- |
+| GET | `/` | Estado de la API |
+| GET | `/customers` | Lista clientes |
+| GET | `/employees` | Lista empleados |
+| GET | `/products` | Lista productos |
+| GET | `/orders/:id` | Consulta una orden con sus detalles |
+| POST | `/orders` | Crea una orden de venta |
+
+Todas las respuestas son JSON.
+
+Éxito (consultas y creación):
+
+```json
+{
+  "success": true,
+  "data": []
+}
+```
+
+Éxito en `GET /`:
+
+```json
+{
+  "success": true,
+  "message": "API REST Northwind funcionando correctamente"
+}
+```
+
+Error:
+
+```json
+{
+  "success": false,
+  "message": "Error interno del servidor"
+}
+```
+
+## JSON de ejemplo para `POST /orders`
+
+```json
+{
+  "customer_id": "ALFKI",
+  "employee_id": 5,
+  "order_date": "2026-09-13",
+  "products": [
+    {
+      "product_id": 3,
+      "quantity": 2,
+      "discount": 0
+    },
+    {
+      "product_id": 11,
+      "quantity": 1,
+      "discount": 0.1
+    }
+  ]
+}
+```
+
+Respuesta esperada: HTTP **201** con la orden creada y sus detalles.
+
+## Validaciones
+
+1. `customer_id` es obligatorio.
+2. `employee_id` es obligatorio y numérico.
+3. `products` debe existir, ser un arreglo y no estar vacío.
+4. `product_id` debe ser un entero mayor que 0 y menor o igual a 32767 (rango `smallint`).
+5. `quantity` debe ser mayor a 0.
+6. `discount` no puede ser negativo.
+7. El cliente debe existir.
+8. El empleado debe existir.
+9. Cada producto debe existir y no estar descontinuado.
+10. El `unit_price` se obtiene de la tabla `products`. No se confía en un precio enviado por el cliente.
+11. Si existe `units_in_stock`, se valida el stock y se descuenta dentro de la misma transacción.
+
+## Códigos HTTP
+
+- **200**: consulta correcta (`GET`)
+- **201**: orden creada (`POST /orders`)
+- **400**: datos inválidos
+- **404**: recurso inexistente (cliente, producto, orden o ruta)
+- **500**: error interno del servidor
+
+## Transacción
+
+`POST /orders` usa una transacción real de PostgreSQL:
+
+1. `const client = await pool.connect()`
+2. `BEGIN`
+3. `INSERT` en `orders` (el `order_id` se calcula de forma segura si Northwind no trae secuencia)
+4. `INSERT` en `order_details` por cada producto
+5. `COMMIT` si todo sale bien
+6. `ROLLBACK` si ocurre cualquier error
+7. `client.release()` en `finally`
+
+Esto evita dejar una cabecera de orden sin detalles. Si falla el stock o un producto, también se revierte el descuento de inventario.
+
+## Consultas parametrizadas
+
+Los datos recibidos del cliente se envían con parámetros `$1`, `$2`, `$3`, etc. No se concatena input de usuario dentro del SQL.
+
+## Cómo probar
+
+### `requests.http`
+
+Abre `requests.http` en Visual Studio Code o Cursor (extensión REST Client) y ejecuta las solicitudes.
+
+### Postman
+
+Importa `postman_collection.json`. La colección usa la variable `baseUrl` con valor `http://localhost:3000`.
+
+### cURL
+
+```bash
+curl http://localhost:3000/
+curl http://localhost:3000/customers
+curl http://localhost:3000/orders/11078
+```
