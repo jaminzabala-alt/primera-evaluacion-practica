@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "API Gateway + Orders Service",
+    "description": "Colección de la solución evaluable NestJS. Todas las peticiones pasan por el API Gateway en http://localhost:3000. El POST guarda automáticamente orderId.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/health",
+        "description": "Health check del API Gateway"
+      }
+    },
+    {
+      "name": "POST /api/orders",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201 || pm.response.code === 200) {",
+              "    const json = pm.response.json();",
+              "    if (json && json.id) {",
+              "        pm.collectionVariables.set('orderId', json.id);",
+              "    }",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerName\": \"Cliente Prueba\",\n  \"product\": \"Laptop\",\n  \"quantity\": 2,\n  \"unitPrice\": 3500,\n  \"status\": \"pending\"\n}"
+        },
+        "url": "{{baseUrl}}/api/orders",
+        "description": "Crea una orden y guarda el UUID en la variable de colección orderId"
+      }
+    },
+    {
+      "name": "GET /api/orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/orders",
+        "description": "Lista todas las órdenes"
+      }
+    },
+    {
+      "name": "GET /api/orders/:id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/orders/{{orderId}}",
+        "description": "Obtiene la orden creada (usa orderId)"
+      }
+    },
+    {
+      "name": "PATCH /api/orders/:id",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"completed\"\n}"
+        },
+        "url": "{{baseUrl}}/api/orders/{{orderId}}",
+        "description": "Actualiza el estado de la orden"
+      }
+    },
+    {
+      "name": "DELETE /api/orders/:id",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/orders/{{orderId}}",
+        "description": "Elimina la orden creada"
+      }
+    }
+  ]
+}
