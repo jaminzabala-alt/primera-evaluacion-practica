@@ -1,0 +1,7 @@
+node_modules/
+.env
+dist/
+api-gateway/dist/
+orders-service/dist/
+api-gateway/node_modules/
+orders-service/node_modules/
